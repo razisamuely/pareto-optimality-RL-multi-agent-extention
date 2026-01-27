@@ -1,0 +1,5 @@
+# Additional dependencies for PAC extensions
+# All base dependencies are inherited from EPyMARL's requirements.txt
+
+# Currently no additional dependencies required
+# All variants use base PyTorch and EPyMARL components

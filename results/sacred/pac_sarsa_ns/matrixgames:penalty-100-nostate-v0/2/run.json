@@ -1,0 +1,130 @@
+{
+  "artifacts": [],
+  "command": "my_main",
+  "experiment": {
+    "base_dir": "/home/corsound/workspace/epymarl/src",
+    "dependencies": [
+      "numpy==2.2.6",
+      "PyYAML==5.3.1",
+      "sacred==0.8.7",
+      "torch==2.9.1"
+    ],
+    "mainfile": "main.py",
+    "name": "pymarl",
+    "repositories": [
+      {
+        "commit": "cbc38c09588064eab978501d0f12c2cf58fa7fc2",
+        "dirty": false,
+        "url": "https://github.com/uoe-agents/epymarl.git"
+      },
+      {
+        "commit": "cbc38c09588064eab978501d0f12c2cf58fa7fc2",
+        "dirty": false,
+        "url": "https://github.com/uoe-agents/epymarl.git"
+      },
+      {
+        "commit": "cbc38c09588064eab978501d0f12c2cf58fa7fc2",
+        "dirty": false,
+        "url": "https://github.com/uoe-agents/epymarl.git"
+      }
+    ],
+    "sources": [
+      [
+        "main.py",
+        "_sources/main_b2cc1db06d11795e4f8cf6a3b0165fa1.py"
+      ],
+      [
+        "run.py",
+        "_sources/run_29fd448eb2929a57e5fd2547c431175b.py"
+      ],
+      [
+        "utils/logging.py",
+        "_sources/logging_80685d67fab61f6e71e93fbe28085531.py"
+      ]
+    ]
+  },
+  "fail_trace": [
+    "Traceback (most recent call last):\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/sacred/config/captured_function.py\", line 42, in captured_function\n    result = wrapped(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/main.py\", line 44, in my_main\n    run(_run, config, _log)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/run.py\", line 67, in run\n    run_sequential(args=args, logger=logger)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/run.py\", line 213, in run_sequential\n    learner.train(episode_sample, runner.t_env, episode)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/learners/actor_critic_pac_learner.py\", line 62, in train\n    advantages, critic_train_stats = self.train_critic(\n",
+    "  File \"/home/corsound/workspace/epymarl/src/learners/actor_critic_pac_learner.py\", line 166, in train_critic\n    v = self.state_value(batch)[:, :-1].squeeze(-1)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1775, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1786, in _call_impl\n    return forward_call(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/modules/critics/centralV_ns.py\", line 29, in forward\n    q = self.critics[i](inputs)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1775, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1786, in _call_impl\n    return forward_call(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/src/modules/critics/mlp.py\", line 13, in forward\n    x = F.relu(self.fc1(inputs))\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1775, in _wrapped_call_impl\n    return self._call_impl(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/module.py\", line 1786, in _call_impl\n    return forward_call(*args, **kwargs)\n",
+    "  File \"/home/corsound/workspace/epymarl/venv/lib/python3.10/site-packages/torch/nn/modules/linear.py\", line 134, in forward\n    return F.linear(input, self.weight, self.bias)\n",
+    "RuntimeError: Expected all tensors to be on the same device, but got mat1 is on cuda:0, different from other tensors on cpu (when checking argument in method wrapper_CUDA_addmm)\n"
+  ],
+  "heartbeat": "2025-12-13T15:57:52.866594",
+  "host": {
+    "ENV": {},
+    "cpu": "11th Gen Intel(R) Core(TM) i7-11800H @ 2.30GHz",
+    "gpus": {
+      "driver_version": "550.163.01",
+      "gpus": [
+        {
+          "model": "NVIDIA GeForce RTX 3080 Laptop GPU",
+          "persistence_mode": false,
+          "total_memory": 16384
+        }
+      ]
+    },
+    "hostname": "corsound-Legion-7-Raz",
+    "os": [
+      "Linux",
+      "Linux-6.8.0-88-generic-x86_64-with-glibc2.35"
+    ],
+    "python_version": "3.10.12"
+  },
+  "meta": {
+    "command": "my_main",
+    "config_updates": {
+      "env_args": {
+        "key": "matrixgames:penalty-100-nostate-v0",
+        "time_limit": 1
+      }
+    },
+    "named_configs": [],
+    "options": {
+      "--beat-interval": null,
+      "--capture": null,
+      "--comment": null,
+      "--debug": false,
+      "--enforce_clean": false,
+      "--file_storage": null,
+      "--force": false,
+      "--help": false,
+      "--id": null,
+      "--loglevel": null,
+      "--mongo_db": null,
+      "--name": null,
+      "--pdb": false,
+      "--print-config": false,
+      "--priority": null,
+      "--queue": false,
+      "--s3": null,
+      "--sql": null,
+      "--tiny_db": null,
+      "--unobserved": false,
+      "COMMAND": null,
+      "UPDATE": [
+        "env_args.time_limit=1",
+        "env_args.key=matrixgames:penalty-100-nostate-v0"
+      ],
+      "help": false,
+      "with": true
+    }
+  },
+  "resources": [],
+  "result": null,
+  "start_time": "2025-12-13T15:57:50.884604",
+  "status": "FAILED",
+  "stop_time": "2025-12-13T15:57:52.867726"
+}
