@@ -17,3 +17,8 @@ config: {'runner': 'episode', 'mac': 'basic_mac', 'env': 'gymma', 'common_reward
 2026-01-31 12:54:14,214 INFO    MainThread:19848 [wandb_run.py:_redirect():2446] Wrapping output streams.
 2026-01-31 12:54:14,215 INFO    MainThread:19848 [wandb_run.py:_redirect():2469] Redirects installed.
 2026-01-31 12:54:14,217 INFO    MainThread:19848 [wandb_init.py:init():1082] run started, returning control to user process
+2026-01-31 13:43:15,599 INFO    MainThread:19848 [wandb_run.py:_finish():2295] finishing run eliads-ben-gurion-university-of-the-negev/epymarl-demo/w2wv0e4t
+2026-01-31 13:43:15,600 INFO    MainThread:19848 [wandb_run.py:_atexit_cleanup():2494] got exitcode: 0
+2026-01-31 13:43:15,600 INFO    MainThread:19848 [wandb_run.py:_restore():2476] restore
+2026-01-31 13:43:15,601 INFO    MainThread:19848 [wandb_run.py:_restore():2482] restore done
+2026-01-31 13:59:32,733 INFO    MainThread:19848 [wandb_run.py:_footer_sync_info():3871] logging synced files

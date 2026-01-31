@@ -42,7 +42,7 @@
       ]
     ]
   },
-  "heartbeat": "2026-01-31T11:17:30.288616",
+  "heartbeat": "2026-01-31T11:59:37.808901",
   "host": {
     "ENV": {},
     "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
@@ -113,5 +113,6 @@
   "resources": [],
   "result": null,
   "start_time": "2026-01-31T10:54:07.758349",
-  "status": "RUNNING"
+  "status": "COMPLETED",
+  "stop_time": "2026-01-31T11:59:35.780592"
 }
