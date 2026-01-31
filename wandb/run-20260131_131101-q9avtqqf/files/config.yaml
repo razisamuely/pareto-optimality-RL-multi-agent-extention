@@ -1,0 +1,199 @@
+_wandb:
+    value:
+        cli_version: 0.24.1
+        e:
+            rhmkf9ztppvyxuqqddiz0bwqj4cwnrpw:
+                args:
+                    - --config=pac_ns
+                    - --env-config=gymma
+                    - with
+                    - env_args.key=matrixgames:climbing-nostate-v0
+                    - t_max=50000
+                    - use_wandb=True
+                    - wandb_project=epymarl-demo
+                    - wandb_team=eliads-ben-gurion-university-of-the-negev
+                    - wandb_mode=online
+                    - wandb_run_name=Pareto-AC-Climbing-50k
+                codePath: src\main.py
+                codePathLocal: src\main.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "264768638976"
+                        used: "216836403200"
+                email: eliads@post.bgu.ac.il
+                executable: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\Scripts\python.exe
+                git:
+                    commit: e9a5fb15eb434f1833a747aca95559508a375400
+                    remote: https://github.com/razisamuely/pareto-optimality-RL-multi-agent-extention.git
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8704
+                      memoryTotal: "10737418240"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-083b3517-4953-e1f1-1183-1356490dc9ed
+                host: DESKTOP-ATM1BLL
+                memory:
+                    total: "17102372864"
+                os: Windows-10-10.0.26100-SP0
+                program: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\main.py
+                python: CPython 3.9.5
+                root: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention
+                startedAt: "2026-01-31T11:11:01.324976Z"
+                writerId: rhmkf9ztppvyxuqqddiz0bwqj4cwnrpw
+        m: []
+        python_version: 3.9.5
+        t:
+            "1":
+                - 1
+                - 5
+                - 52
+                - 53
+            "2":
+                - 1
+                - 5
+                - 52
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+                - 61
+            "4": 3.9.5
+            "5": 0.24.1
+            "8":
+                - 3
+            "12": 0.24.1
+            "13": windows-amd64
+action_selector:
+    value: soft_policies
+add_value_last_step:
+    value: true
+agent:
+    value: rnn_ns
+agent_output_type:
+    value: pi_logits
+batch_size:
+    value: 10
+batch_size_run:
+    value: 10
+buffer_cpu_only:
+    value: true
+buffer_size:
+    value: 10
+checkpoint_path:
+    value: ""
+common_reward:
+    value: true
+critic_type:
+    value: pac_critic_ns
+entropy_end_ratio:
+    value: 0.8
+env:
+    value: gymma
+env_args:
+    value:
+        key: matrixgames:climbing-nostate-v0
+        pretrained_wrapper: null
+        seed: 661255150
+        time_limit: 100
+evaluate:
+    value: false
+final_entropy_coef:
+    value: 0.01
+gamma:
+    value: 0.99
+grad_norm_clip:
+    value: 10
+hidden_dim:
+    value: 64
+hypergroup:
+    value: null
+initial_entropy_coef:
+    value: 20
+label:
+    value: default_label
+learner:
+    value: pac_learner
+learner_log_interval:
+    value: 10000
+load_step:
+    value: 0
+local_results_path:
+    value: results
+log_interval:
+    value: 50000
+lr:
+    value: 0.0003
+mac:
+    value: non_shared_mac
+mask_before_softmax:
+    value: true
+name:
+    value: pac_sarsa_ns
+obs_agent_id:
+    value: false
+obs_individual_obs:
+    value: false
+obs_last_action:
+    value: false
+optim_alpha:
+    value: 0.99
+optim_eps:
+    value: 1e-05
+q_nstep:
+    value: 10
+render:
+    value: false
+repeat_id:
+    value: 1
+reward_scalarisation:
+    value: sum
+runner:
+    value: parallel
+runner_log_interval:
+    value: 10000
+save_model:
+    value: false
+save_model_interval:
+    value: 50000
+save_replay:
+    value: false
+seed:
+    value: 661255150
+standardise_rewards:
+    value: false
+state_value_type:
+    value: cv_critic_ns
+t_max:
+    value: 50000
+target_update_interval_or_tau:
+    value: 0.01
+test_greedy:
+    value: true
+test_interval:
+    value: 50000
+test_nepisode:
+    value: 100
+use_cuda:
+    value: false
+use_rnn:
+    value: false
+use_tensorboard:
+    value: false
+use_wandb:
+    value: true
+wandb_mode:
+    value: online
+wandb_project:
+    value: epymarl-demo
+wandb_run_name:
+    value: Pareto-AC-Climbing-50k
+wandb_save_model:
+    value: false
+wandb_team:
+    value: eliads-ben-gurion-university-of-the-negev

@@ -1,0 +1,202 @@
+_wandb:
+    value:
+        cli_version: 0.24.1
+        e:
+            wkiexqvv5t3n3nftkmyzwya6u3my1go1:
+                args:
+                    - --config=qmix
+                    - --env-config=gymma
+                    - with
+                    - env_args.time_limit=25
+                    - env_args.key=matrixgames:penalty-100-nostate-v0
+                    - use_wandb=True
+                    - wandb_team=eliads-ben-gurion-university-of-the-negev
+                    - wandb_project=epymarl-demo
+                    - wandb_mode=online
+                    - t_max=2000
+                codePath: src\main.py
+                codePathLocal: src\main.py
+                cpu_count: 6
+                cpu_count_logical: 12
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "264768638976"
+                        used: "216814235648"
+                email: eliads@post.bgu.ac.il
+                executable: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\Scripts\python.exe
+                git:
+                    commit: e9a5fb15eb434f1833a747aca95559508a375400
+                    remote: https://github.com/razisamuely/pareto-optimality-RL-multi-agent-extention.git
+                gpu: NVIDIA GeForce RTX 3080
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 8704
+                      memoryTotal: "10737418240"
+                      name: NVIDIA GeForce RTX 3080
+                      uuid: GPU-083b3517-4953-e1f1-1183-1356490dc9ed
+                host: DESKTOP-ATM1BLL
+                memory:
+                    total: "17102372864"
+                os: Windows-10-10.0.26100-SP0
+                program: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\main.py
+                python: CPython 3.9.5
+                root: C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention
+                startedAt: "2026-01-31T10:47:17.852913Z"
+                writerId: wkiexqvv5t3n3nftkmyzwya6u3my1go1
+        m: []
+        python_version: 3.9.5
+        t:
+            "1":
+                - 1
+                - 5
+                - 52
+                - 53
+            "2":
+                - 1
+                - 5
+                - 52
+                - 53
+            "3":
+                - 2
+                - 16
+                - 61
+            "4": 3.9.5
+            "5": 0.24.1
+            "8":
+                - 3
+            "12": 0.24.1
+            "13": windows-amd64
+action_selector:
+    value: epsilon_greedy
+add_value_last_step:
+    value: true
+agent:
+    value: rnn
+agent_output_type:
+    value: q
+batch_size:
+    value: 32
+batch_size_run:
+    value: 1
+buffer_cpu_only:
+    value: true
+buffer_size:
+    value: 5000
+checkpoint_path:
+    value: ""
+common_reward:
+    value: true
+double_q:
+    value: true
+env:
+    value: gymma
+env_args:
+    value:
+        key: matrixgames:penalty-100-nostate-v0
+        pretrained_wrapper: null
+        seed: 374671228
+        time_limit: 25
+epsilon_anneal_time:
+    value: 50000
+epsilon_finish:
+    value: 0.05
+epsilon_start:
+    value: 1
+evaluate:
+    value: false
+evaluation_epsilon:
+    value: 0
+gamma:
+    value: 0.99
+grad_norm_clip:
+    value: 10
+hidden_dim:
+    value: 64
+hypergroup:
+    value: null
+hypernet_embed:
+    value: 64
+hypernet_layers:
+    value: 2
+label:
+    value: default_label
+learner:
+    value: q_learner
+learner_log_interval:
+    value: 10000
+load_step:
+    value: 0
+local_results_path:
+    value: results
+log_interval:
+    value: 50000
+lr:
+    value: 0.0005
+mac:
+    value: basic_mac
+mixer:
+    value: qmix
+mixing_embed_dim:
+    value: 32
+name:
+    value: qmix
+obs_agent_id:
+    value: true
+obs_individual_obs:
+    value: false
+obs_last_action:
+    value: false
+optim_alpha:
+    value: 0.99
+optim_eps:
+    value: 1e-05
+render:
+    value: false
+repeat_id:
+    value: 1
+reward_scalarisation:
+    value: sum
+runner:
+    value: episode
+runner_log_interval:
+    value: 10000
+save_model:
+    value: false
+save_model_interval:
+    value: 50000
+save_replay:
+    value: false
+seed:
+    value: 374671228
+standardise_returns:
+    value: false
+standardise_rewards:
+    value: true
+t_max:
+    value: 2000
+target_update_interval_or_tau:
+    value: 200
+test_greedy:
+    value: true
+test_interval:
+    value: 50000
+test_nepisode:
+    value: 100
+use_cuda:
+    value: false
+use_rnn:
+    value: false
+use_tensorboard:
+    value: false
+use_wandb:
+    value: true
+wandb_mode:
+    value: online
+wandb_project:
+    value: epymarl-demo
+wandb_save_model:
+    value: false
+wandb_team:
+    value: eliads-ben-gurion-university-of-the-negev

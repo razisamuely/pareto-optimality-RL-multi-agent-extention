@@ -65,7 +65,6 @@ class Logger:
             config=config,
             group=group_name,
             mode=mode,
-            name=config.get("wandb_run_name"),  # Use custom name if provided
         )
 
         self.console_logger.info("*******************")

@@ -1,0 +1,51 @@
+{
+  "os":  "Windows-10-10.0.26100-SP0",
+  "python":  "CPython 3.9.5",
+  "startedAt":  "2026-01-31T10:54:11.170452Z",
+  "args":  [
+    "--config=qmix",
+    "--env-config=gymma",
+    "with",
+    "env_args.key=matrixgames:climbing-nostate-v0",
+    "t_max=2050000",
+    "use_wandb=True",
+    "wandb_project=epymarl-demo",
+    "wandb_team=eliads-ben-gurion-university-of-the-negev",
+    "wandb_mode=online"
+  ],
+  "program":  "C:\\Users\\eliad\\Desktop\\phd\\course_project\\pareto-optimality-RL-multi-agent-extention\\src\\main.py",
+  "codePath":  "src\\main.py",
+  "codePathLocal":  "src\\main.py",
+  "git":  {
+    "remote":  "https://github.com/razisamuely/pareto-optimality-RL-multi-agent-extention.git",
+    "commit":  "e9a5fb15eb434f1833a747aca95559508a375400"
+  },
+  "email":  "eliads@post.bgu.ac.il",
+  "root":  "C:\\Users\\eliad\\Desktop\\phd\\course_project\\pareto-optimality-RL-multi-agent-extention",
+  "host":  "DESKTOP-ATM1BLL",
+  "executable":  "C:\\Users\\eliad\\Desktop\\phd\\course_project\\pareto-optimality-RL-multi-agent-extention\\.venv\\Scripts\\python.exe",
+  "cpu_count":  6,
+  "cpu_count_logical":  12,
+  "gpu":  "NVIDIA GeForce RTX 3080",
+  "gpu_count":  1,
+  "disk":  {
+    "/":  {
+      "total":  "264768638976",
+      "used":  "216781041664"
+    }
+  },
+  "memory":  {
+    "total":  "17102372864"
+  },
+  "gpu_nvidia":  [
+    {
+      "name":  "NVIDIA GeForce RTX 3080",
+      "memoryTotal":  "10737418240",
+      "cudaCores":  8704,
+      "architecture":  "Ampere",
+      "uuid":  "GPU-083b3517-4953-e1f1-1183-1356490dc9ed"
+    }
+  ],
+  "cudaVersion":  "13.0",
+  "writerId":  "x10fpml7eepj00r0uyd13nvchn6qsb16"
+}

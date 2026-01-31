@@ -1,0 +1,34 @@
+[INFO 12:47:21] my_main *******************
+[INFO 12:47:21] my_main WANDB RUN ID:
+[INFO 12:47:21] my_main 2kkr2da6
+[INFO 12:47:21] my_main *******************
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\spaces\box.py:235: UserWarning: [33mWARN: Box low's precision lowered by casting to float32, current low.dtype=float64[0m
+  gym.logger.warn(
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\spaces\box.py:305: UserWarning: [33mWARN: Box high's precision lowered by casting to float32, current high.dtype=float64[0m
+  gym.logger.warn(
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\utils\passive_env_checker.py:134: UserWarning: [33mWARN: The obs returned by the `reset()` method was expecting numpy array dtype to be float32, actual type: int64[0m
+  logger.warn(
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\utils\passive_env_checker.py:158: UserWarning: [33mWARN: The obs returned by the `reset()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+[INFO 12:47:22] my_main Beginning training for 2000 timesteps
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:93: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  target["filled"][slices] = 1
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:105: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  self._check_safe_view(v, target[k][_slices])
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:106: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  target[k][_slices] = v.view_as(target[k][_slices])
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\utils\passive_env_checker.py:134: UserWarning: [33mWARN: The obs returned by the `step()` method was expecting numpy array dtype to be float32, actual type: int64[0m
+  logger.warn(
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\utils\passive_env_checker.py:158: UserWarning: [33mWARN: The obs returned by the `step()` method is not within the observation space.[0m
+  logger.warn(f"{pre} is not within the observation space.")
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\.venv\lib\site-packages\gymnasium\utils\passive_env_checker.py:245: UserWarning: [33mWARN: The reward returned by `step()` must be a float, int, np.integer or np.floating, actual type: <class 'list'>[0m
+  logger.warn(
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:110: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  v = target[k][_slices]
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:113: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  target[new_k][_slices] = v.view_as(target[new_k][_slices])
+[INFO 12:47:22] my_main t_env: 25 / 2000
+[INFO 12:47:22] my_main Estimated time left: 0 seconds. Time passed: 0 seconds
+C:\Users\eliad\Desktop\phd\course_project\pareto-optimality-RL-multi-agent-extention\src\components\episode_buffer.py:152: UserWarning: Using a non-tuple sequence for multidimensional indexing is deprecated and will be changed in pytorch 2.9; use x[tuple(seq)] instead of x[seq]. In pytorch 2.9 this will be interpreted as tensor index, x[torch.tensor(seq)], which will result either in an error or a different result (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\torch\csrc\autograd\python_variable_indexing.cpp:312.)
+  new_data.transition_data[k] = v[item]
+[INFO 12:47:27] my_main Finished Training
