@@ -3,6 +3,11 @@ import subprocess
 import sys
 import os
 
+"""
+Running example:
+python run_experiments_main.py --algo pac_ns --env matrixgames:climbing-nostate-v0 --steps 500000 --name "Pareto-AC-Climbing-Hyperparams-500k" hidden_dim=64 initial_entropy_coef=4 final_entropy_coef=0.1 entropy_end_ratio=0.8 lr=0.0003 use_rnn=False
+"""
+
 def run_experiment(env_key, algorithm="qmix", t_max=10_000, use_wandb=True, wandb_project="epymarl-demo", wandb_team="eliads-ben-gurion-university-of-the-negev", wandb_mode="online", run_name=None, extra_args=None):
     """
     Runs an experiment using src/main.py with the specified parameters.
