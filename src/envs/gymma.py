@@ -6,6 +6,11 @@ from gymnasium.spaces import flatdim
 from gymnasium.wrappers import TimeLimit
 import numpy as np
 
+try:
+    import matrixgames
+except ImportError:
+    pass
+
 from .multiagentenv import MultiAgentEnv
 from .wrappers import FlattenObservation
 import envs.pretrained as pretrained  # noqa
@@ -36,8 +41,13 @@ class GymmaWrapper(MultiAgentEnv):
         reward_scalarisation,
         **kwargs,
     ):
-        self._env = gym.make(f"{key}", **kwargs)
-        self._env = TimeLimit(self._env, max_episode_steps=time_limit)
+        try:
+            import matrixgames
+        except ImportError:
+            pass
+        self.original_env = gym.make(f"{key}", **kwargs)
+        self._env = TimeLimit(self.original_env, max_episode_steps=time_limit)
+        self._env.reset()
         self._env = FlattenObservation(self._env)
 
         if pretrained_wrapper:
