@@ -8,6 +8,7 @@ from copy import deepcopy
 import os
 from os.path import dirname, abspath
 import sys
+sys.path.append(dirname(dirname(abspath(__file__))))
 import yaml
 
 import numpy as np

@@ -8,7 +8,7 @@ Running example:
 python run_experiments_main.py --algo pac_ns --env matrixgames:climbing-nostate-v0 --steps 500000 --name "Pareto-AC-Climbing-Hyperparams-500k" hidden_dim=64 initial_entropy_coef=4 final_entropy_coef=0.1 entropy_end_ratio=0.8 lr=0.0003 use_rnn=False
 """
 
-def run_experiment(env_key, algorithm="qmix", t_max=10_000, use_wandb=True, wandb_project="epymarl-demo", wandb_team="eliads-ben-gurion-university-of-the-negev", wandb_mode="online", run_name=None, extra_args=None):
+def run_experiment(env_key, algorithm="qmix", t_max=10_000, use_wandb=True, wandb_project="epymarl-demo", wandb_team="eliads-ben-gurion-university-of-the-negev", wandb_mode="online", run_name=None, run_group=None, extra_args=None):
     """
     Runs an experiment using src/main.py with the specified parameters.
     """
@@ -39,6 +39,8 @@ def run_experiment(env_key, algorithm="qmix", t_max=10_000, use_wandb=True, wand
         config_updates.append(f"wandb_mode={wandb_mode}")
         if run_name:
             config_updates.append(f"wandb_run_name={run_name}")
+        if run_group:
+            config_updates.append(f"wandb_run_group={run_group}")
     else:
         config_updates.append("use_wandb=False")
 
@@ -80,6 +82,7 @@ if __name__ == "__main__":
     parser.add_argument("--team", type=str, default="eliads-ben-gurion-university-of-the-negev", help="WandB team/entity name")
     parser.add_argument("--offline", action="store_true", help="Run WandB in offline mode")
     parser.add_argument("--name", type=str, default=None, help="WandB run name")
+    parser.add_argument("--group", type=str, default=None, help="WandB run group")
 
     args, unknown = parser.parse_known_args()
     
@@ -94,5 +97,6 @@ if __name__ == "__main__":
         wandb_team=args.team,
         wandb_mode=mode,
         run_name=args.name,
+        run_group=args.group,
         extra_args=unknown
     )

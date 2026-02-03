@@ -57,7 +57,7 @@ class Logger:
             ).encode("utf8")
         ).hexdigest()[-10:]
 
-        group_name = "_".join([alg_name, env_name, self.config_hash])
+        group_name = config.get("wandb_run_group", "_".join([alg_name, env_name, self.config_hash]))
 
         self.wandb = wandb.init(
             entity=team_name,

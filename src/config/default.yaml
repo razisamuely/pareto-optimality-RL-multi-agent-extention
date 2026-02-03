@@ -25,6 +25,7 @@ wandb_team: null # W&B team name
 wandb_project: null # W&B project name
 wandb_mode: "offline" # W&B mode (online/offline)
 wandb_run_name: null # W&B run name
+wandb_run_group: null # W&B run group
 wandb_save_model: False # Save models to W&B (only done if use_wandb is True and save_model is True)
 save_model: False # Save the models to disk
 save_model_interval: 50000 # Save models after this many timesteps
