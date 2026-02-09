@@ -1,0 +1,274 @@
+\documentclass[paper=a4, fontsize=11pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage{fourier}
+\usepackage[english]{babel}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{natbib}
+
+\usepackage{sectsty}
+\allsectionsfont{\centering \normalfont\scshape}
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhead{}
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{13.6pt}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+
+\setlength\parindent{0pt}
+
+
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+
+\title{
+\normalfont \normalsize
+\textsc{Course Project - Multi-Agent Reinforcement Learning} \\ [25pt]
+\horrule{0.5pt} \\[0.4cm]
+\huge Multi-Agent RL for Equilibrium Selection \\ 
+\horrule{2pt} \\[0.5cm]
+}
+
+\author{Eliad Shem Tov, Raz Shmueli}
+
+\date{\normalsize\today}
+
+\begin{document}
+
+\maketitle
+
+
+\section{Introduction}
+
+Multi-Agent Reinforcement Learning (MARL) \cite{busoniu2008comprehensive} studies environments in which multiple learning agents interact while pursuing individual or shared objectives. In cooperative and no-conflict games, agents share aligned incentives, yet learning remains challenging due to non-stationarity and coordination failures. In particular, many MARL algorithms converge to \emph{Pareto-dominated equilibria}, even when higher-reward joint strategies exist. This phenomenon arises from exploration noise and early policy uncertainty, which bias agents toward safer but suboptimal behaviors. Each agent in MARL has its own policy and return. Unlike single-agent RL, MARL involves agents that cooperate, compete, or both. A key challenge is non-stationarity: as agents update policies concurrently, the environment changes from each agent's perspective. MARL algorithms often struggle with multiple equilibria, particularly in cooperative games \citep{claus1998dynamics}. 
+
+Our project focuses on equilibrium selection in such settings, with an emphasis on methods that explicitly guide learning toward Pareto-optimal outcomes. Specifically we focus Pareto Actor Critic\cite{christianos2023pareto}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/multi_agent_rl_loop.png}
+  \caption{Multi-agent RL loop. At timestep $k$, each agent $i$ observes $s_k^i$, selects $a_k^i$, and the environment returns rewards $r_{k+1}^i$ and next states $s_{k+1}^i$.}
+  \label{fig:marl_loop}
+\end{figure}
+
+
+\subsection{Game Theory and Equilibrium Concepts}
+
+Game theory studies strategic interactions where outcomes depend on the choices of multiple decision-makers. A game consists of players, actions, and payoffs. When players choose actions simultaneously, a Nash equilibrium occurs when no player can improve their payoff by changing their action alone.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{c|cc}
+ & A & B \\
+\hline
+A & 10, 10 & 0, 0 \\
+B & 0, 0 & 5, 5 \\
+\end{tabular}
+\caption{A coordination game with two Nash equilibria: $(A,A)$ and $(B,B)$. The equilibrium $(A,A)$ is Pareto-optimal, while $(B,B)$ is suboptimal but safer under uncertainty.}
+\label{tab:coordination_game}
+\end{table}
+
+In coordination games, multiple Nash equilibria may exist with different payoffs. A Pareto-optimal equilibrium is one where no player can be made better off without making another worse off. However, agents may converge to suboptimal equilibria due to uncertainty about others' behavior. This motivates the study of equilibrium selection mechanisms.
+
+\subsection{Reinforcement Learning}
+
+Reinforcement Learning (RL) addresses sequential decision-making under uncertainty. An agent interacts with an environment modeled as a Markov Decision Process (MDP), defined by the tuple $(S, A, P, R, \gamma)$, where $S$ is the state space, $A$ the action space, $P(s'|s,a)$ the transition dynamics, $R(s,a)$ the reward function, and $\gamma \in [0,1]$ the discount factor.
+
+At each timestep $t$, the agent observes state $s_t$, selects action $a_t \sim \pi(a_t|s_t)$, receives reward $r_t$, and transitions to $s_{t+1}$. The objective is to maximize expected discounted return:
+\[
+J(\pi) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t r_t \right].
+\]
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/rl_loop.png}
+  \caption{The reinforcement learning loop: an agent observes state $s_i$, selects action $a_i$, and receives reward $r_{i+1}$ and next state $s_{i+1}$.}
+  \label{fig:rl_loop}
+\end{figure}
+
+
+\subsection{Value Functions}
+
+Two value functions are central to RL. The state-value function is
+\[
+V^{\pi}(s) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s \right],
+\]
+while the action-value function is
+\[
+Q^{\pi}(s,a) = \mathbb{E}_{\pi}\left[\sum_{t=0}^{\infty} \gamma^t r_t \mid s_0 = s, a_0 = a \right].
+\]
+These quantify expected returns for states and state-action pairs under policy $\pi$.
+
+\subsection{Policy Optimization Methods}
+
+Policy gradient methods optimize a parameterized policy $\pi_{\phi}$ directly. The REINFORCE algorithm estimates the gradient as
+\[
+\nabla_{\phi} J(\phi) = \mathbb{E}\left[\nabla_{\phi} \log \pi_{\phi}(a_t|s_t)\, G_t\right],
+\]
+where $G_t$ is the return from timestep $t$. To reduce variance, a baseline $b(s_t)$ is introduced:
+\[
+\nabla_{\phi} J(\phi) = \mathbb{E}\left[\nabla_{\phi} \log \pi_{\phi}(a_t|s_t)\, (G_t - b(s_t))\right].
+\]
+
+Actor-critic algorithms combine policy gradients with value function approximation. The actor represents policy $\pi_{\phi}$, while the critic estimates $V_{\theta}$ or $Q_{\theta}$. The advantage function $A^{\pi}(s,a) = Q^{\pi}(s,a) - V^{\pi}(s)$ guides policy updates:
+\[
+\nabla_{\phi} J(\phi) \approx \mathbb{E}\left[\nabla_{\phi} \log \pi_{\phi}(a_t|s_t)\, A^{\pi}(s_t,a_t)\right].
+\]
+Actor-critic methods balance bias and variance and form the basis of many modern RL algorithms.
+
+
+
+\section{Related Work}
+
+We focus on \emph{``Pareto Actor Critic for Equilibrium Selection in Multi-Agent Reinforcement Learning''} by \citet{christianos2023pareto}. This paper introduces an actor-critic framework that addresses equilibrium selection in no-conflict games by guiding learning toward Pareto-optimal equilibria. We study this method and evaluate its behavior under different configurations.
+
+\subsection{Equilibrium Selection in MARL}
+
+In cooperative games, multiple Nash equilibria often exist. Agents must choose between Pareto-optimal equilibria with high rewards and risk-dominant equilibria that are safer but suboptimal. Studies show that MARL algorithms often converge to Pareto-dominated equilibria due to exploration noise \citep{claus1998dynamics}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\linewidth]{figures/stag_hunt.png}
+  \caption{The Stag Hunt game. Joint action $(A,A)$ is Pareto-optimal, while $(B,B)$ is risk-dominant but suboptimal.}
+  \label{fig:stag_hunt_matrix}
+\end{figure}
+
+\subsection{Value Decomposition Methods}
+
+Value decomposition methods address credit assignment in cooperative MARL. VDN \citep{sunehag2018vdn} decomposes the joint Q-function as a sum of individual utilities. QMIX \citep{rashid2018qmix} extends this with a monotonic mixing network. While effective in cooperative settings, these methods do not explicitly address equilibrium selection.
+
+\subsection{Multi-Agent Actor-Critic Methods}
+
+Actor-critic methods have been extended to multi-agent settings. MAPPO \citep{yu2022mappo} applies PPO with centralized value functions and performs well on cooperative benchmarks. These methods use Centralized Training with Decentralized Execution (CTDE) but remain sensitive to exploration noise and may converge to risk-averse equilibria.
+
+\subsection{Pareto Actor Critic}
+
+Pareto Actor Critic (Pareto-AC) \citep{christianos2023pareto} modifies the actor-critic objective for equilibrium selection. Let $\pi = (\pi_1,\dots,\pi_N)$ denote the joint policy. Pareto-AC introduces an idealized policy $\pi^+ = (\pi_i, \pi^+_{-i})$, where $\pi^+_{-i}$ maximizes joint return. The objective for agent $i$ is:
+\[
+J(\phi_i) = \sum_{s \in S} d^{\pi}(s)\, V_i^{\pi^+}(s),
+\]
+where $d^{\pi}(s)$ is the state distribution under the current policy. By evaluating actions assuming optimal coordination, Pareto-AC reduces bias toward risk-averse equilibria. For scalability, PACDCG uses Deep Coordination Graphs to approximate the joint Q-function.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\linewidth]{figures/pareto_ac.png}
+  \caption{Pareto-AC overview. Trajectories are collected using current policy $\pi_i$. An idealized policy $\pi^+_{-i}$ is computed by maximizing $Q(s^t, a_i^t, a_{-i})$. This trains the critic $Q^{\pi^+}$, which guides the actor update.}
+  \label{fig:pareto_ac}
+\end{figure}
+
+
+
+\section{Proposed Research Idea}
+
+We propose extending the Pareto Actor Critic (Pareto-AC) framework to improve equilibrium selection in cooperative multi-agent games. The original Pareto-AC algorithm assumes *perfect optimism*---agents always assume their partners will act to maximize joint returns. While this drives exploration towards Pareto-optimal outcomes, it can be risky in stochastic environments or during early training when partners' policies are unstable.
+
+To address this, we introduce two mechanisms that balance optimism (aiming for the best outcome) with realism (accounting for partner uncertainty). These methods are grounded in the game-theoretic concept of *risk dominance*, where agents might prefer a safer, lower-payoff equilibrium over a risky, higher-payoff one. Our goal is to dynamically shift agents from risk-taking to risk-averse behaviors to ensure convergence to the optimal joint strategy.
+
+\subsection{Adaptive Optimism Scheduling}
+
+Standard Pareto-AC calculates the value of an action $a_i$ by assuming partners choose the best possible response $a_{-i}$:
+\[
+Q_{\text{opt}}(s, a_i) = \max_{a_{-i}} Q(s, a_i, a_{-i}).
+\]
+We propose an \textbf{adaptive optimism} approach that blends this optimistic view with the expected reality of the current policy. We define a blended Q-value:
+\[
+Q_{\text{blend}}(s, a_i) = \alpha_t \cdot Q_{\text{opt}}(s, a_i) + (1 - \alpha_t) \cdot Q_{\text{exp}}(s, a_i),
+\]
+where $Q_{\text{exp}}(s, a_i) = \mathbb{E}_{a_{-i} \sim \pi_{-i}}[Q(s, a_i, a_{-i})]$ represents the expected return under the partners' current actual behavior. The coefficient $\alpha_t$ controls the level of optimism and decays over time.
+
+We investigate two decay schedules for $\alpha_t$:
+\begin{itemize}
+    \item \textbf{Linear Decay}: $\alpha_t$ decreases linearly from $1.0$ (full optimism) to $0.0$ (standard actor-critic) over the training horizon. This encourages early exploration of Pareto-optimal equilibria and gradual stabilization.
+    \item \textbf{Exponential Decay}: $\alpha_t$ decays exponentially, maintaining high optimism for a shorter initial phase before rapidly converging to standard learning. This places a stronger emphasis on early coordination.
+\end{itemize}
+
+\subsection{CVaR Risk-Sensitive Optimism}
+
+Instead of assuming the absolute best-case scenario (max) or the average case (mean), we propose using \textbf{Conditional Value at Risk (CVaR)} to act as a "soft maximization." 
+
+In this approach, an agent evaluates an action $a_i$ by considering the average of the best $\beta$-fraction of possible partner responses. For a confidence level $\beta \in (0, 1]$, the CVaR Q-value is:
+\[
+Q_{\text{CVaR}}(s, a_i; \beta) = \mathbb{E}[Q(s, a_i, a_{-i}) \mid Q(s, a_i, a_{-i}) \ge q_\beta],
+\]
+where $q_\beta$ is the $(1-\beta)$-quantile of the distribution of Q-values over joint actions.
+
+\begin{itemize}
+    \item When $\beta \to 0$, the agent effectively assumes the \textbf{best-case} response (approaching $\max$).
+    \item When $\beta = 1$, the agent considers the \textbf{average} response (approaching standard expected Q-values).
+\end{itemize}
+
+This method allows for *robust optimism*. Intuitively, it models an agent who trusts their partners to be "reasonably good" (avoiding terrible mistakes) but does not blindly rely on them playing the absolute perfect move every time. This helps avoid the "sucker's payoff" in coordination games where one agent's deviation can lead to disastrous penalties.
+
+
+\section{Expected Project Significance}
+
+Each modification should yield insights into equilibrium selection robustness.
+
+\subsection{Evaluation Methodology}
+
+We evaluate on matrix games from the EPyMARL benchmark, including Penalty-100 and Climbing games. Each experiment runs across 5 random seeds, measuring convergence speed, final average reward, and learning stability.
+
+
+\section{Methodology}
+
+\subsection{Experimental Environment}
+
+We use matrix games that provide controlled settings for studying equilibrium selection:
+
+\begin{itemize}
+    \item \textbf{Penalty Game (k = -100):} A two-player coordination game where matching actions yield $+10$, but miscoordination results in $-100$ penalty. This tests the algorithm's ability to overcome risk aversion.
+    
+    \item \textbf{Climbing Game:} A coordination game with multiple equilibria of varying quality. Agents must coordinate on the Pareto-optimal equilibrium despite safer alternatives.
+\end{itemize}
+
+These environments were introduced by \citet{claus1998dynamics} and are standard benchmarks for equilibrium selection in MARL.
+
+\subsection{Baseline and Metrics}
+
+We compare against baseline Pareto Actor Critic using:
+
+\begin{itemize}
+    \item \textbf{Final Average Reward:} Mean return over final 1000 steps.
+    \item \textbf{Convergence Speed:} Steps to reach 95\% optimal return.
+    \item \textbf{Learning Stability:} Standard deviation across 5 seeds.
+\end{itemize}
+
+\subsection{Experimental Protocol}
+
+\begin{enumerate}
+    \item Train agents for a fixed number of episodes.
+    \item Record returns throughout training.
+    \item Repeat across 5 random seeds.
+    \item Compare learning curves and summary statistics.
+\end{enumerate}
+
+\subsection{Implementation Details}
+
+Our implementation builds upon EPyMARL for environment interfaces and baseline algorithms. The core contribution---the modified PAC variants---is implemented from scratch. This includes adaptive optimism scheduling, CVaR-based Q-value computation, and communication mechanisms.
+
+
+\section{Team Contributions}
+
+\begin{itemize}
+    \item \textbf{Eliad Shem Tov} (Doctorate, Information Systems): Literature review, experimental design, and result analysis. This includes surveying related work, designing experiments, and interpreting findings.
+    
+    \item \textbf{Raz Shmueli} (Master's, Computer Science): Implementation, running experiments, and code development. This includes implementing PAC modifications, integrating with EPyMARL, and ensuring reproducibility.
+\end{itemize}
+
+Both team members contribute to writing the final report.
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
