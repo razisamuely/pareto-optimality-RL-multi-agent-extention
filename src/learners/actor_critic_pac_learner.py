@@ -35,8 +35,8 @@ class PACActorCriticLearner:
         self.critic_training_steps = 0
         self.log_stats_t = -self.args.learner_log_interval - 1
 
-        device = "cuda" if args.use_cuda else "cpu"
-        self.ret_ms = RunningMeanStd(shape=(self.n_agents,), device=device)
+        self.device = "cuda" if args.use_cuda else "cpu"
+        self.ret_ms = RunningMeanStd(shape=(self.n_agents,), device=self.device)
 
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
         # Get the relevant quantities
@@ -237,6 +237,7 @@ class PACActorCriticLearner:
         self.mac.cuda()
         self.critic.cuda()
         self.target_critic.cuda()
+        self.state_value.cuda()
 
     def save_models(self, path):
         self.mac.save_models(path)
