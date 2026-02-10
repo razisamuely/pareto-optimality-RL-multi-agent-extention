@@ -30,6 +30,7 @@ Experiments were conducted on the Penalty Game (k=-100) and Climbing Game.
 | Adaptive-exp | 726.24 ± 606.94 | 501000 |
 | Baseline (PAC) | -614.95 ± 17.99 | 501000 |
 
+![Climbing Results](climbing_results.png)
 
 ### Environment: matrixgames:climbing-nostate-v0
 | Variant | Final Return | Steps |
