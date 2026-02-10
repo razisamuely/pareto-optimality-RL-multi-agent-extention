@@ -25,25 +25,24 @@ Experiments were conducted on the Penalty Game (k=-100) and Climbing Game.
 |---|---|---|
 | CVaR-0.1 | -601.26 ± 2466.40 | 501000 |
 | CVaR-0.25 | -625.22 ± 2284.70 | 501000 |
-| CVaR-0.5 | -751.56 ± 0.00 | 501000 |
+| CVaR-0.5 | -751.56 ± 0.00 | 101000 |
 | Adaptive-linear | 729.82 ± 598.95 | 501000 |
 | Adaptive-exp | 726.24 ± 606.94 | 501000 |
-| Baseline (PAC) | -614.95 ± 17.99 | 501000 |
+| Baseline (PAC) | -35.54 ± 641.42 | 501000 |
 
-![Climbing Results](climbing_results.png)
 
 ### Environment: matrixgames:climbing-nostate-v0
 | Variant | Final Return | Steps |
 |---|---|---|
 | baseline | 1400.00 ± 0.00 | 2050100 |
-| Baseline (PAC) | -618.11 ± 18.09 | 2050100 |
+| Baseline (PAC) | -618.11 ± 18.09 | 1000 |
 
 
 ### Environment: matrixgames:penalty-100-nostate-v0
 | Variant | Final Return | Steps |
 |---|---|---|
 | baseline | 0.00 ± 0.00 | 25 |
-| Baseline (PAC) | -965.56 ± 0.00 | 25 |
+| Baseline (PAC) | -965.56 ± 0.00 | 250 |
 
 
 
