@@ -57,27 +57,27 @@ You can pass these via CLI or edit the YAMLs.
 | `cvar_alpha` | float | 0.1 | Quantile size (0.1 = top 10%). |
 | `name` | string | "pac_run" | Experiment name tag for Sacred. |
 
-### Execution Commands
+### Execution Commands (500k Study)
 
+The following scripts were used to conduct the 500k step experiments for the final report. They are located in `extension/experiments/`.
+
+#### 1. Penalty Game (All Variants)
+Runs **Adaptive** (Linear, Exp), **CVaR** (0.1, 0.25, 0.5), and **Baseline** for 500k steps.
 ```bash
-# Run Adaptive (Linear 50k)
-python3 extension/custom_main.py \
-    --config=adaptive_pac \
-    --env-config=gymma \
-    with \
-    env_args.key="penalty-100-nostate-v0" \
-    optimism_schedule="linear" \
-    optimism_decay_steps=50000 \
-    name="adaptive_lin_50k"
+./extension/experiments/run_penalty_500k.sh
+```
 
-# Run CVaR (Alpha 0.25)
-python3 extension/custom_main.py \
-    --config=cvar_pac \
-    --env-config=gymma \
-    with \
-    env_args.key="climbing-nostate-v0" \
-    cvar_alpha=0.25 \
-    name="cvar_0.25"
+#### 2. Climbing Game
+Separate scripts were used for different batches:
+```bash
+# CVaR-0.5 (500k)
+./extension/experiments/run_climbing_cvar05_500k.sh
+
+# Baseline (500k)
+./extension/experiments/run_baseline_500k.sh
+
+# Initial Batch (CVaR-0.1, 0.25, Adaptive) - note: older script name
+./extension/experiments/run_climbing_study.sh
 ```
 
 ---
