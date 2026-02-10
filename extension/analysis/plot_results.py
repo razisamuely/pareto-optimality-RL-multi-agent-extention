@@ -11,7 +11,7 @@ OUTPUT_DIR = "/home/corsound/workspace/epymarl/extension/docs/report"
 OUTPUT_FILE = os.path.join(OUTPUT_DIR, "climbing_results.png")
 
 def load_results():
-    data = defaultdict(list)
+    data = defaultdict(lambda: defaultdict(list))
     
     # Walk through results directory
     for root, dirs, files in os.walk(RESULTS_DIR):
@@ -42,12 +42,15 @@ def load_results():
                 elif "cvar" in alg_name:
                     variant = f"CVaR-{config.get('cvar_alpha', 'unknown')}"
                 elif "pac" in alg_name:
-                    variant = "Baseline (PAC)"
+                    if "dcg" in alg_name:
+                        variant = "Baseline (DCG)"
+                    else:
+                        variant = "Baseline (PAC)"
                 
-                if env_name == "climbing-nostate-v0":
-                     # Filter: only keep runs that reached close to 500k steps
+                if env_name in ["climbing-nostate-v0", "penalty-100-nostate-v0"]:
+                     # Filter: only keep runs that reached 500k
                      if steps[-1] >= 450000:
-                         data[variant].append((steps, returns))
+                         data[env_name][variant].append((steps, returns))
                 
             except Exception as e:
                 # print(f"Skipping {root}: {e}")
@@ -55,7 +58,7 @@ def load_results():
     return data
 
 def plot_results(data):
-    plt.figure(figsize=(10, 6))
+    # data structure changed to data[env][variant] = list of runs
     
     # Define colors/styles
     colors = {
@@ -64,50 +67,55 @@ def plot_results(data):
         "CVaR-0.1": "red",
         "CVaR-0.25": "orange",
         "CVaR-0.5": "purple",
-        "Baseline (PAC)": "gray"
+        "Baseline (PAC)": "black",
+        "Baseline (DCG)": "gray"
     }
 
     # Common x-axis for interpolation
     target_steps = np.linspace(0, 500000, 500)
 
-    for variant, runs in data.items():
-        if not runs:
-            continue
+    for env_name, variants_data in data.items():
+        plt.figure(figsize=(10, 6))
+        
+        for variant, runs in variants_data.items():
+            if not runs:
+                continue
+                
+            interp_returns = []
             
-        interp_returns = []
-        
-        for steps, returns in runs:
-            # Interpolate to target_steps
-            # We use np.interp. It requires steps to be increasing.
-            val_interp = np.interp(target_steps, steps, returns)
-            interp_returns.append(val_interp)
+            for steps, returns in runs:
+                val_interp = np.interp(target_steps, steps, returns, left=np.nan, right=np.nan)
+                max_t = steps[-1]
+                mask = target_steps > max_t
+                val_interp[mask] = np.nan
+                interp_returns.append(val_interp)
+                
+            interp_returns = np.array(interp_returns)
             
-        interp_returns = np.array(interp_returns)
-        
-        mean = np.mean(interp_returns, axis=0)
-        std = np.std(interp_returns, axis=0)
-        
-        color = colors.get(variant, None)
-        
-        plt.plot(target_steps, mean, label=variant, color=color, linewidth=2)
-        plt.fill_between(target_steps, mean - std, mean + std, color=color, alpha=0.15)
+            # Use nanmean and nanstd
+            mean = np.nanmean(interp_returns, axis=0)
+            std = np.nanstd(interp_returns, axis=0)
+            
+            color = colors.get(variant, None)
+            valid_mask = ~np.isnan(mean)
+            
+            if np.any(valid_mask):
+                 plt.plot(target_steps[valid_mask], mean[valid_mask], label=variant, color=color, linewidth=2)
+                 plt.fill_between(target_steps[valid_mask], (mean - std)[valid_mask], (mean + std)[valid_mask], color=color, alpha=0.15)
 
-    plt.title("Climbing Game: Algorithm Comparison (5 Seeds)", fontsize=14)
-    plt.xlabel("Timesteps", fontsize=12)
-    plt.ylabel("Test Return", fontsize=12)
-    plt.legend(loc="upper left")
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
-    plt.savefig(OUTPUT_FILE)
-    print(f"Plot saved to {OUTPUT_FILE}")
+        plt.title(f"{env_name}: Algorithm Comparison (500k Steps)", fontsize=14)
+        plt.xlabel("Timesteps", fontsize=12)
+        plt.ylabel("Test Return", fontsize=12)
+        plt.legend(loc="upper left")
+        plt.grid(True, alpha=0.3)
+        plt.tight_layout()
+        
+        output_file = os.path.join(OUTPUT_DIR, f"{env_name}_results.png")
+        plt.savefig(output_file)
+        print(f"Plot saved to {output_file}")
 
 if __name__ == "__main__":
     print("Loading results...")
     data = load_results()
-    print(f"Found data for {len(data)} variants:")
-    for v, runs in data.items():
-        print(f"  - {v}: {len(runs)} runs")
-        
+    print(f"Found data for {len(data)} environments.")
     plot_results(data)

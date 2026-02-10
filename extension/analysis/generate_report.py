@@ -49,7 +49,10 @@ def load_results():
                 elif "cvar" in alg_name:
                     variant = f"CVaR-{config.get('cvar_alpha', 'unknown')}"
                 elif "pac" in alg_name:
-                    variant = "Baseline (PAC)"
+                    if "dcg" in alg_name:
+                        variant = "Baseline (DCG)"
+                    else:
+                        variant = "Baseline (PAC)"
                 
                 data[env_name].append({
                     "variant": variant,
@@ -57,8 +60,12 @@ def load_results():
                     "steps": final_step
                 })
                 
+                # Filter out short runs for final report (since we have 500k data now)
+                if final_step < 450000 and env_name in ["climbing-nostate-v0", "penalty-100-nostate-v0"]:
+                    data[env_name].pop()
+            
             except Exception as e:
-                print(f"Skipping {root}: {e}")
+                # print(f"Skipping {root}: {e}")
                 continue
     return data
 
@@ -84,15 +91,18 @@ def generate_markdown(data):
         lines.append("| Variant | Final Return | Steps |")
         lines.append("|---|---|---|")
         
-        # Group by variant to average if multiple seeds (we define 1 run per variant in script for now but good practice)
+        # Group by variant to average if multiple seeds
         grouped = defaultdict(list)
+        variant_steps = {}
         for r in runs:
             grouped[r['variant']].append(r['return'])
+            variant_steps[r['variant']] = r['steps']
             
         for variant, returns in grouped.items():
             avg_ret = np.mean(returns)
             std_ret = np.std(returns)
-            lines.append(f"| {variant} | {avg_ret:.2f} ± {std_ret:.2f} | {runs[0]['steps']} |")
+            steps = variant_steps[variant]
+            lines.append(f"| {variant} | {avg_ret:.2f} ± {std_ret:.2f} | {steps} |")
         
         lines.append("\n")
     
